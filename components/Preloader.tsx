@@ -1,0 +1,67 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+/**
+ * First-visit preloader: the Winterbrook emblem draws on stroke-by-stroke,
+ * fills, then the curtain lifts. Runs once per session (sessionStorage) and
+ * never for reduced-motion users. The real brand paths from logo.svg are
+ * inlined so the mark is pixel-identical to the live site's.
+ */
+export default function Preloader() {
+  const [state, setState] = useState<"idle" | "playing" | "done">("idle");
+
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced || sessionStorage.getItem("wb-preloaded")) {
+      setState("done");
+      return;
+    }
+    setState("playing");
+    sessionStorage.setItem("wb-preloaded", "1");
+    document.documentElement.style.overflow = "hidden";
+    const t = setTimeout(() => {
+      setState("done");
+      document.documentElement.style.overflow = "";
+    }, 2350);
+    return () => {
+      clearTimeout(t);
+      document.documentElement.style.overflow = "";
+    };
+  }, []);
+
+  if (state !== "playing") return null;
+
+  return (
+    <div className="preloader fixed inset-0 z-[10000] flex items-center justify-center bg-ink">
+      <div className="flex flex-col items-center gap-6">
+        <svg
+          width="76"
+          height="88"
+          viewBox="0 0 50.5 58.5"
+          fill="none"
+          aria-hidden="true"
+          className="preloader-logo"
+        >
+          <path
+            className="preloader-path"
+            d="M33.6,47.2c-1.7-3.6-4.2-6.8-7.2-9.4v-6.2v-0.3l7,4l1.3,6.3c0.2,0.8,1,1.4,1.8,1.2c0.8-0.2,1.4-1,1.2-1.8 l-0.8-3.7l4.4,2.5c0.7,0.4,1.7,0.2,2.1-0.6c0.4-0.7,0.2-1.7-0.6-2.1l-4.5-2.5l3.6-1.3c0.8-0.3,1.2-1.2,0.9-2c-0.3-0.8-1.2-1.2-2-0.9 L35,32.5l-6.3-3.5l6.6-4.3l6.2,1.8c0.8,0.2,1.7-0.2,1.9-1.1c0.2-0.8-0.2-1.7-1.1-1.9l-3.6-1l4.3-2.8c0.7-0.5,0.9-1.4,0.5-2.1 c-0.5-0.7-1.4-0.9-2.1-0.5l-4.3,2.8l0.5-3.7c0.1-0.8-0.5-1.6-1.3-1.8c-0.8-0.1-1.6,0.5-1.8,1.3l-0.9,6.4l-7.2,4.6v-3.8v-5.1l4.9-4.2 c0.6-0.6,0.7-1.5,0.2-2.2c-0.6-0.6-1.5-0.7-2.2-0.2l-2.8,2.5V8.6c0-0.9-0.7-1.6-1.5-1.6c-0.9,0-1.6,0.7-1.6,1.6v5.1l-2.8-2.5 c-0.7-0.6-1.6-0.5-2.2,0.2c-0.6,0.6-0.5,1.6,0.2,2.2l4.9,4.3v5.1v2.9l-7.1-4.2l-1.2-6.4c-0.2-0.8-1-1.4-1.8-1.3 c-0.8,0.2-1.4,1-1.2,1.8l0.7,3.7l-4.4-2.6c-0.7-0.4-1.7-0.2-2.1,0.5c-0.4,0.7-0.2,1.7,0.5,2.1l4.4,2.6l-3.6,1.2 c-0.8,0.3-1.3,1.1-1,2c0.3,0.8,1.1,1.3,2,1l6.2-2l7.4,4.4l0,0l1.2,0.7l0.1,0v2.1v3.8c-4.8-3.2-10.5-5.1-16.7-5.1 c-0.8,0-1.6,0-2.4,0.1L4.2,16.2L24.9,4.1l0,0L45.8,16l0.1,24L33.6,47.2z M48.2,15.3c0-0.4-0.2-0.8-0.6-1L25.5,1.6 c-0.2-0.1-0.4-0.2-0.6-0.2c-0.2,0-0.4,0.1-0.6,0.2l-22,12.8c-0.4,0.2-0.6,0.6-0.6,1l0.1,15.1l0,2.7c0.8-0.1,1.6-0.2,2.4-0.3 c0.8-0.1,1.6-0.1,2.4-0.1c6.3,0,12.1,2.1,16.7,5.7c0.5,0.4,1.1,0.8,1.6,1.3c0.3,0.3,0.6,0.5,0.9,0.8c2.3,2.2,4.1,4.9,5.5,7.8 c0.3,0.7,0.7,1.5,0.9,2.2l2.3-1.4l13.2-7.7c0.4-0.2,0.6-0.6,0.6-1L48.2,15.3z"
+          />
+          <path
+            className="preloader-path"
+            style={{ animationDelay: "0.35s" }}
+            d="M24.9,51.2c-4.7-6.5-12.1-10.9-20.6-11.3c-0.5,0-0.9,0-1.4,0c-0.3,0-0.7,0-1,0l0,1.1c0,0.4,0.2,0.8,0.6,1 L3,42.2c2.2,0,4.3,0.3,6.4,0.9c4.1,1.1,7.7,3.2,10.6,6.1c1.6,1.5,2.9,3.2,4,5.1l0.5,0.3c0.1,0.1,0.2,0.1,0.3,0.1c0.1,0,0.2,0,0.3,0 c0.2,0,0.4-0.1,0.6-0.2l0.9-0.5c-0.4-0.7-0.8-1.4-1.2-2.1C25.3,51.7,25.1,51.4,24.9,51.2"
+          />
+          <path
+            className="preloader-path"
+            style={{ animationDelay: "0.55s" }}
+            d="M24.9,43.5C19.8,38.3,12.7,35,4.8,35c-0.2,0-0.3,0-0.5,0c-0.8,0-1.6,0.1-2.4,0.1l0,2.5c0.8-0.1,1.6-0.1,2.4-0.2 c0.2,0,0.3,0,0.5,0c8.1,0,15.4,3.8,20.1,9.7c0.9,1.1,1.7,2.3,2.4,3.6c0.4,0.7,0.7,1.4,1.1,2.2l2.2-1.3c-0.3-0.7-0.7-1.5-1.1-2.2 C28.2,47.3,26.7,45.3,24.9,43.5"
+          />
+        </svg>
+        <p className="preloader-word font-body text-[11px] uppercase tracking-[0.5em] text-stone/70">
+          Winterbrook
+        </p>
+      </div>
+    </div>
+  );
+}

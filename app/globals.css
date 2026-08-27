@@ -1,0 +1,346 @@
+@import "tailwindcss";
+
+@theme {
+  /* Winterbrook brand: deep navy, warm stone, terracotta (from the brand
+     mark, #DA765D) and brass. Navy is the primary structural colour;
+     terracotta is reserved for fine accents and the mark itself. */
+  --color-ink: #122b45;
+  --color-ink-soft: #1b3a5c;
+  --color-navy: #122b45;
+  --color-navy-deep: #0c1f33;
+  --color-stone: #eae5dd;
+  --color-cream: #f5f1ea;
+  --color-paper: #faf7f2;
+  --color-terracotta: #c96a52;
+  --color-terracotta-deep: #b05841;
+  --color-brass: #b39a6a;
+  --color-mist: #7d7568;
+
+  --font-display: var(--font-cormorant), "Cormorant Garamond", "Georgia", serif;
+  --font-body: var(--font-hanken), "Helvetica Neue", sans-serif;
+
+  --ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  --header-h: 5.5rem;
+}
+
+/* Global typographic scale: larger base size lifts every heading and the
+   nav proportionally (all sizes are rem/ch-based, so layouts scale intact). */
+html {
+  font-size: 16.5px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 17px;
+  }
+}
+@media (min-width: 1280px) {
+  html {
+    font-size: 17.75px;
+  }
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-navy);
+  color: var(--color-paper);
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0.005em;
+}
+
+/* Editorial numerals in the display face */
+.font-display {
+  font-variant-numeric: lining-nums;
+}
+
+/* Cormorant runs small on the body clock — give body copy generous rhythm */
+p {
+  text-wrap: pretty;
+}
+
+/* --- custom cursor -------------------------------------------------- */
+@media (pointer: fine) {
+  .cursor-host,
+  .cursor-host a,
+  .cursor-host button,
+  .cursor-host [role="button"] {
+    cursor: none;
+  }
+}
+
+/* --- image treatments ------------------------------------------------
+   Imagery is always full colour. Hover: a slow, quiet scale — nothing more. */
+.img-duotone img {
+  transition: transform 1.4s var(--ease-lux);
+}
+.group:hover .img-duotone img,
+.group:focus-within .img-duotone img {
+  transform: scale(1.04);
+}
+@media (prefers-reduced-motion: reduce) {
+  .img-duotone img {
+    transform: none !important;
+  }
+}
+
+/* --- ambient drifting texture ---------------------------------------- */
+.ambient::before {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(42% 36% at 22% 24%, rgba(201, 106, 82, 0.055), transparent 70%),
+    radial-gradient(38% 42% at 78% 70%, rgba(169, 139, 95, 0.065), transparent 70%),
+    radial-gradient(30% 30% at 60% 20%, rgba(28, 26, 23, 0.035), transparent 70%);
+}
+@keyframes ambient-drift {
+  0% {
+    transform: translate3d(-2.5%, -1.5%, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(2.5%, 2%, 0) scale(1.07);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ambient::before {
+    animation: none;
+  }
+}
+
+/* --- ken burns hero --------------------------------------------------- */
+@keyframes kenburns {
+  0% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1.14);
+  }
+}
+.kenburns {
+  animation: kenburns 9s var(--ease-lux) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .kenburns {
+    animation: none;
+  }
+}
+
+/* --- form shake ------------------------------------------------------- */
+@keyframes field-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+.field-shake {
+  animation: field-shake 0.4s ease both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .field-shake {
+    animation: none;
+  }
+}
+
+/* --- leaflet ----------------------------------------------------------- */
+.leaflet-container {
+  font-family: var(--font-body);
+  background: var(--color-stone);
+}
+.wb-pin {
+  background: none;
+  border: none;
+}
+.wb-pin .pin-dot {
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px 9999px 9999px 2px;
+  transform: rotate(-45deg);
+  background: var(--color-ink);
+  border: 2px solid var(--color-paper);
+  box-shadow: 0 4px 14px rgba(28, 26, 23, 0.35);
+  transition:
+    background 0.3s ease,
+    transform 0.3s var(--ease-lux);
+}
+.wb-pin.is-active .pin-dot,
+.wb-pin:hover .pin-dot {
+  background: var(--color-terracotta);
+  transform: rotate(-45deg) scale(1.25);
+}
+
+/* Primary nav hover inversion: text -> brand orange, underline -> white.
+   Unlayered so it reliably outranks same-property colour utilities.
+   Hover is gated to hover-capable devices; focus-visible applies everywhere
+   so keyboard users get the same clear state. */
+@media (hover: hover) {
+  header nav[aria-label="Primary"] a:hover {
+    color: var(--color-terracotta);
+  }
+}
+header nav[aria-label="Primary"] a:focus-visible {
+  color: var(--color-terracotta);
+}
+
+/* Focus visibility on a muted palette */
+:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 3px;
+}
+
+/* --- scroll reveals ----------------------------------------------------
+   Content is server-rendered; JS only ever *adds* motion. Elements with
+   data-reveal start hidden only once html.js exists (progressive
+   enhancement: no JS -> everything visible). */
+.js [data-reveal="up"] {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.js [data-reveal="none"] {
+  opacity: 0;
+}
+[data-reveal] {
+  transition:
+    opacity 0.9s var(--ease-lux),
+    transform 0.9s var(--ease-lux);
+}
+.js [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+html.no-motion [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+/* --- split headline ---------------------------------------------------- */
+.split-word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.split-word {
+  display: inline-block;
+  white-space: pre;
+}
+.js .split-headline .split-word {
+  opacity: 0;
+  transform: translateY(110%);
+  transition:
+    opacity 0.7s var(--ease-lux),
+    transform 0.9s var(--ease-lux);
+}
+.js .split-headline.is-split-revealed .split-word {
+  opacity: 1;
+  transform: translateY(0);
+}
+html.no-motion .split-word {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* --- hero slide tick ---------------------------------------------------- */
+@keyframes hero-tick {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* --- preloader ----------------------------------------------------------- */
+.preloader {
+  animation: preloader-exit 0.6s var(--ease-lux) 1.75s both;
+}
+@keyframes preloader-exit {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+.preloader-path {
+  fill: transparent;
+  stroke: #da765d;
+  stroke-width: 0.6;
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+  animation:
+    logo-draw 1.15s var(--ease-lux) forwards,
+    logo-fill 0.5s ease 1s forwards;
+}
+@keyframes logo-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes logo-fill {
+  to {
+    fill: #da765d;
+    stroke-width: 0;
+  }
+}
+.preloader-word {
+  opacity: 0;
+  animation: word-in 0.8s ease 0.9s forwards;
+}
+@keyframes word-in {
+  from {
+    opacity: 0;
+    letter-spacing: 0.7em;
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 0.5em;
+  }
+}

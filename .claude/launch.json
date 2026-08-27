@@ -1,0 +1,18 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "rre-site",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "rre/site", "run", "dev"],
+      "port": 3000
+    },
+    {
+      "name": "winterbrook",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3005,
+      "autoPort": true
+    }
+  ]
+}

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Cormorant_Garamond, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
 import "leaflet/dist/leaflet.css";
@@ -65,6 +67,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Footer />
           </PageTransitionProvider>
         </SmoothScroll>
+        {/* Outside the transition providers so they mount once for the whole app */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

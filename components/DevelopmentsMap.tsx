@@ -7,8 +7,10 @@ import { developments } from "@/lib/content";
 /**
  * Interactive Leaflet map of the Dublin/Wicklow region with a pin per
  * current development. Hover state syncs both ways with the listing cards
- * via activeSlug / onPinHover. Keyboard focusable pins; muted CARTO basemap
- * to sit with the palette.
+ * via activeSlug / onPinHover. Keyboard focusable pins; the OSM basemap is
+ * muted via a filter on .leaflet-tile-pane (globals.css) to sit with the
+ * palette. (CARTO's keyless tiles began watermarking "API KEY REQUIRED",
+ * Aug 2026 — keep basemaps keyless.)
  */
 export default function DevelopmentsMap({
   activeSlug,
@@ -36,9 +38,9 @@ export default function DevelopmentsMap({
       mapRef.current = map;
       map.attributionControl.setPrefix(false);
 
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-        attribution: "© OpenStreetMap contributors © CARTO",
-        subdomains: "abcd",
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19,
       }).addTo(map);
 

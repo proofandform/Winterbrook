@@ -665,7 +665,7 @@ export const team: TeamMember[] = [
   { name: "Anne-Marie Drohan", role: "Operations Director", portrait: "winterbrook-portraits_139-anne-marie.jpg" },
   { name: "Kate Rhatigan", role: "Innovation & Design Director", portrait: "winterbrook-portraits_322-kate.jpg" },
   { name: "Michael Kissane", role: "Finance Director", portrait: "winterbrook-portraits_222.jpg" },
-  { name: "Paul Farrell", role: "Construction Manager", portrait: "winterbrook-portraits_184-paul.jpg" },
+  { name: "Paul Farrell", role: "Construction Director", portrait: "winterbrook-portraits_184-paul.jpg" },
   { name: "Ivor McNamara", role: "Head of Investment", portrait: "winterbrook-portraits_022-ivor.jpg" },
   { name: "Francis Rhatigan", role: "Director & Company Founder", portrait: "winterbrook-portraits_350-francis.jpg" },
   { name: "Tommy Breen", role: "Chairman", portrait: "winterbrook-portraits__613-tommy.jpg" },

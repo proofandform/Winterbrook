@@ -7,10 +7,9 @@ import { developments } from "@/lib/content";
 /**
  * Interactive Leaflet map of the Dublin/Wicklow region with a pin per
  * current development. Hover state syncs both ways with the listing cards
- * via activeSlug / onPinHover. Keyboard focusable pins; the OSM basemap is
- * muted via a filter on .leaflet-tile-pane (globals.css) to sit with the
- * palette. (CARTO's keyless tiles began watermarking "API KEY REQUIRED",
- * Aug 2026 — keep basemaps keyless.)
+ * via activeSlug / onPinHover. Keyboard focusable pins; full-colour OSM
+ * basemap per client preference. (CARTO's keyless tiles began watermarking
+ * "API KEY REQUIRED", Aug 2026 — keep basemaps keyless.)
  */
 export default function DevelopmentsMap({
   activeSlug,

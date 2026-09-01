@@ -194,11 +194,8 @@ p {
   font-family: var(--font-body);
   background: var(--color-stone);
 }
-/* Mute the OSM basemap towards the paper palette. Tiles only — pins and
-   tooltips live in separate panes and keep full colour. */
-.leaflet-tile-pane {
-  filter: grayscale(1) sepia(0.07) brightness(1.05) contrast(0.93);
-}
+/* Basemap tiles render in full colour — the client prefers the standard
+   OSM cartography over a muted/greyscale treatment (Aug 2026). */
 .wb-pin {
   background: none;
   border: none;

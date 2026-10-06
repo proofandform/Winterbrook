@@ -5,44 +5,55 @@ import SplitHeadline from "./SplitHeadline";
 import Magnetic from "./Magnetic";
 import { TransitionLink } from "./PageTransition";
 
-/**
- * Cinematic full-bleed video hero — aerial film of The Lookout, Harbour
- * Road, Dalkey. The film is left almost untouched: a light bottom scrim
- * only, so the footage carries the frame. Reduced-motion users (and any
- * playback failure) fall back to the poster frame.
- */
+/** The Poplars film is decorative; the first frame remains visible when motion is reduced or playback fails. */
 export default function HomeHero() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [motionOk, setMotionOk] = useState(true);
+  const [motionOk, setMotionOk] = useState(false);
 
   useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
-      setMotionOk(false);
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setMotionOk(!preference.matches);
+    update();
+    preference.addEventListener("change", update);
+    return () => preference.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (!motionOk) {
       videoRef.current?.pause();
       return;
     }
-    // Some browsers block autoplay until a play() call
-    videoRef.current?.play().catch(() => {});
-  }, []);
+    videoRef.current?.play().catch(() => setMotionOk(false));
+  }, [motionOk]);
 
   return (
     <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-ink text-paper">
+      <div
+        className="absolute inset-0 bg-cover bg-center md:bg-[position:50%_45%]"
+        style={{ backgroundImage: "url('/images/poplars-home-hero-poster.jpg')" }}
+        aria-hidden="true"
+      />
       <video
         ref={videoRef}
-        className="absolute inset-0 h-full w-full object-cover"
-        src="/video/winterbrook-hero.mp4"
-        poster="/images/hero-video-poster.jpg"
+        className="absolute inset-0 h-full w-full object-cover object-[54%_center] md:object-center"
+        src={motionOk ? "/video/poplars-home-hero.mp4" : undefined}
+        poster="/images/poplars-home-hero-poster.jpg"
         autoPlay={motionOk}
         muted
         loop
         playsInline
         preload="metadata"
-        aria-label="Aerial film over The Lookout, Harbour Road, Dalkey"
+        aria-hidden="true"
+        tabIndex={-1}
+        onError={() => setMotionOk(false)}
       />
       {/* light cinematic scrim — enough for legibility, no heavy overlay */}
       <div
         className="absolute inset-x-0 bottom-0 h-[62%] bg-gradient-to-t from-navy-deep/85 via-navy-deep/30 to-transparent"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-0 bg-gradient-to-r from-navy-deep/45 via-navy-deep/10 to-transparent"
         aria-hidden="true"
       />
 
@@ -81,13 +92,11 @@ export default function HomeHero() {
         </div>
       </div>
 
-      {/* scroll hint */}
+      {/* A quiet credit makes the footage identifiable without competing with the headline. */}
       <div
-        className="absolute bottom-10 right-8 hidden items-center gap-3 text-[11px] uppercase tracking-[0.3em] text-stone/60 md:flex"
-        aria-hidden="true"
+        className="absolute bottom-10 right-8 hidden text-right text-[11px] uppercase tracking-[0.24em] text-stone/80 md:block"
       >
-        Scroll
-        <span className="block h-10 w-px animate-pulse bg-stone/40" />
+        The Poplars <span className="mx-2 text-stone/50">·</span> Shankill, Co. Dublin
       </div>
     </section>
   );

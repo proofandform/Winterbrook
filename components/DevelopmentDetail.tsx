@@ -11,6 +11,7 @@ import EnquiryForm from "./EnquiryForm";
 import { StatusBadge } from "./DevelopmentCard";
 import { TransitionLink } from "./PageTransition";
 import DaftCta from "./DaftCta";
+import DevelopmentHeroFilm from "./DevelopmentHeroFilm";
 
 // Schemes delivered with Dún Laoghaire–Rathdown County Council; these carry
 // a link to the Council's affordable-housing information page.
@@ -41,23 +42,27 @@ export default function DevelopmentDetail({ dev }: { dev: Development }) {
     <article>
       {/* hero */}
       <header className="relative flex min-h-[86svh] items-end overflow-hidden bg-ink text-paper">
-        <div className="absolute inset-0">
-          <WbImage
-            src={dev.hero.src}
-            alt={dev.hero.alt}
-            fill
-            priority
-            sizes="100vw"
-            className="kenburns object-cover"
-          />
-        </div>
+        {dev.heroFilm ? (
+          <DevelopmentHeroFilm key={dev.slug} film={dev.heroFilm} />
+        ) : (
+          <div className="absolute inset-0">
+            <WbImage
+              src={dev.hero.src}
+              alt={dev.hero.alt}
+              fill
+              priority
+              sizes="100vw"
+              className="kenburns object-cover"
+            />
+          </div>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent" aria-hidden="true" />
         <div className="relative z-10 mx-auto w-full max-w-[1600px] px-5 pb-16 pt-44 sm:px-8">
           <Reveal className="mb-5 flex items-center gap-3">
             <StatusBadge status={dev.status} />
-            {dev.hero.kind === "cgi" && (
+            {(dev.heroFilm || dev.hero.kind === "cgi") && (
               <span className="rounded-full border border-paper/40 px-2.5 py-1 text-[10px] uppercase tracking-[0.15em] text-paper/90">
-                Imagery: CGI
+                {dev.heroFilm?.label ?? "Imagery: CGI"}
               </span>
             )}
           </Reveal>

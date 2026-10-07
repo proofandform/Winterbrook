@@ -18,6 +18,13 @@ export interface GalleryImage {
   kind: MediaKind;
 }
 
+export interface HeroFilm {
+  src: string; // public URL of the silent, web-optimised film
+  poster: string; // public URL of the matching first frame
+  posterAlt: string;
+  label: string; // distinguishes construction footage from completed homes
+}
+
 export type DevelopmentStatus = "available" | "coming-soon" | "past";
 export type HomeType = "house" | "apartment" | "duplex";
 
@@ -35,6 +42,7 @@ export interface Development {
   lat: number;
   lng: number;
   hero: GalleryImage;
+  heroFilm?: HeroFilm;
   gallery: GalleryImage[];
   agent?: string;
   website?: string;
@@ -76,6 +84,12 @@ export const developments: Development[] = [
       alt: "CGI of contemporary houses at The Poplars, Shankill",
       kind: "cgi",
     },
+    heroFilm: {
+      src: "/video/poplars-home-hero.mp4",
+      poster: "/images/poplars-home-hero-poster.jpg",
+      posterAlt: "Aerial view of The Poplars site in Shankill during construction",
+      label: "Construction footage",
+    },
     gallery: [
       { src: "26027_thepoplars_cgi-1_reve_lowres.jpg", alt: "CGI street view of new homes at The Poplars", kind: "cgi" },
       { src: "26027_thepoplars_aerial-1_proposed_revb.jpg", alt: "Proposed aerial CGI of The Poplars beside Shankill Village", kind: "cgi" },
@@ -111,6 +125,12 @@ export const developments: Development[] = [
       src: "4059_077d.jpg",
       alt: "Detached five-bedroom house at Pinehurst, Enniskerry",
       kind: "photo",
+    },
+    heroFilm: {
+      src: "/video/pinehurst-hero.mp4",
+      poster: "/images/pinehurst-hero-poster.jpg",
+      posterAlt: "Completed detached homes at Pinehurst in Enniskerry",
+      label: "Completed homes",
     },
     gallery: [
       { src: "4059_077d.jpg", alt: "Front elevation of a detached house at Pinehurst", kind: "photo" },
@@ -154,6 +174,12 @@ export const developments: Development[] = [
       alt: "CGI of apartment blocks around a landscaped park at Emmet Gardens, Dundrum",
       kind: "cgi",
     },
+    heroFilm: {
+      src: "/video/emmet-gardens-hero.mp4",
+      poster: "/images/emmet-gardens-hero-poster.jpg",
+      posterAlt: "Aerial view of the Emmet Gardens construction site in Dundrum",
+      label: "Construction footage",
+    },
     gallery: [
       { src: "24336_dundrum_cgi-1_revb.jpg", alt: "CGI of Emmet Gardens from the public park", kind: "cgi" },
       { src: "24336_dundrum_cgi-2_revb.jpg", alt: "CGI of residential blocks at Emmet Gardens", kind: "cgi" },
@@ -188,6 +214,12 @@ export const developments: Development[] = [
       src: "24337_wildrock_cgi-2_revd.jpg",
       alt: "CGI of apartment blocks at Highpoint Park, Leopardstown",
       kind: "cgi",
+    },
+    heroFilm: {
+      src: "/video/highpoint-park-hero.mp4",
+      poster: "/images/highpoint-park-hero-poster.jpg",
+      posterAlt: "Highpoint Park under construction on Leopardstown Road",
+      label: "Construction footage",
     },
     gallery: [
       { src: "24337_wildrock_cgi-2_revd.jpg", alt: "CGI of Highpoint Park from Leopardstown Road", kind: "cgi" },

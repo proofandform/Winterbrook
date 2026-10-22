@@ -1,0 +1,65 @@
+import type { NewsArticle } from "../content";
+
+export const emmetGardensArticle: NewsArticle = {
+  slug: "construction-begins-emmet-gardens-129-homes",
+  title: "Breaking ground on 129 new homes at Emmet Gardens",
+  date: "2026-10-22",
+  dateLabel: "22 October 2026",
+  author: "Winterbrook",
+  category: "Project milestone",
+  image: {
+    src: "emmet-gardens-sod-turning-ceremony.jpg",
+    alt: "Six attendees in hard hats and high-visibility vests holding spades at the Emmet Gardens sod-turning ceremony.",
+    kind: "photo",
+  },
+  heroCaption: "The official sod-turning ceremony at Emmet Gardens, where 129 social and affordable homes will be delivered.",
+  excerpt: "Winterbrook and Dún Laoghaire-Rathdown County Council have marked the start of construction at Emmet Gardens in Dundrum, where 129 social and affordable homes will be delivered.",
+  standfirst: [
+    { text: "Winterbrook and Dún Laoghaire-Rathdown County Council have marked the start of construction at " },
+    { text: "Emmet Gardens", href: "/homes/mount-saint-marys-dundrum-d14" },
+    { text: " in Dundrum, where 129 social and affordable homes will be delivered." },
+  ],
+  seoTitle: "Emmet Gardens: Construction Begins on 129 Homes | Winterbrook",
+  metaDescription: "Winterbrook and Dún Laoghaire-Rathdown County Council mark the start of construction on 129 social and affordable homes at Emmet Gardens in Dundrum.",
+  socialDescription: "A new chapter for Emmet Gardens: construction is underway on 129 social and affordable homes, delivered by Winterbrook in partnership with Dún Laoghaire-Rathdown County Council.",
+  body: [],
+  blocks: [
+    { type: "paragraph", content: [{ text: "The ceremony brought together An Cathaoirleach, Cllr Barry Saul; Minister for Housing, Local Government and Heritage James Browne TD; Minister of State for Planning and Local Government John Cummins TD; Council Chief Executive Frank Curran; Gerard O’Sullivan, the Council’s Director of Housing; and the Winterbrook team to mark the start of works." }] },
+    { type: "paragraph", content: [
+      { text: "Following the " },
+      { text: "signing of contracts earlier in 2026", href: "/news/contracts-signed-for-129-new-social-and-affordable-homes-at-emmet-gardens-dundrum" },
+      { text: ", the development now moves into its construction phase. Plans provide for 72 one-bedroom and 57 two-bedroom homes across three blocks, together with a new public park, communal open spaces and play areas." },
+    ] },
+    { type: "paragraph", content: [{ text: "Cllr Barry Saul highlighted what the development will mean for future residents:" }] },
+    { type: "quote", paragraphs: ["“These homes will provide new opportunities for individuals and families to put down roots and become part of the local community.”"] },
+    { type: "heading", text: "From partnership to progress" },
+    { type: "paragraph", content: [{ text: "For Winterbrook, the sod-turning ceremony is a milestone in a project shaped by close collaboration with the Council." }] },
+    { type: "image", image: {
+      src: "emmet-gardens-winterbrook-team.jpg",
+      alt: "Five attendees holding spades in front of Winterbrook and Council banners at Emmet Gardens.",
+      kind: "photo",
+    }, caption: "Celebrating the start of works at Emmet Gardens." },
+    { type: "paragraph", content: [{ text: "Conor Rhatigan, Managing Director of Winterbrook Ltd., said:" }] },
+    { type: "quote", paragraphs: [
+      "“We are delighted to be marking this milestone at Emmet Gardens. There has been a lot of work behind the scenes to get the project to this stage, so it’s very rewarding for everyone involved to now see construction underway and these new homes beginning to take shape.",
+      "“We recognise the scale of the housing need in Ireland, and it’s positive to see Government funding and policy helping to bring projects like this forward. We’ve worked closely with Dún Laoghaire-Rathdown County Council throughout and there has been a real shared focus on getting the project delivered.",
+      "“At Winterbrook, we want to continue building on this. We’re ambitious about growing the business and delivering more homes, both in partnership with Local Authorities and through our wider development pipeline. Emmet Gardens is an important project for us and one we’re very proud to be delivering.”",
+    ] },
+    { type: "heading", text: "Creating a place to call home" },
+    { type: "paragraph", content: [{ text: "The ambition for Emmet Gardens extends to the spaces around the homes and the quality of life they will support. Frank Curran, Chief Executive of Dún Laoghaire-Rathdown County Council, said:" }] },
+    { type: "quote", paragraphs: ["“Our focus is not only on delivering homes, but on creating well-designed, sustainable places where people can enjoy a high quality of life.”"] },
+    { type: "paragraph", content: [{ text: "Minister Browne welcomed the start of construction, highlighting the delivery of energy-efficient homes and the value of collaboration between Government, local authorities and delivery partners. Minister of State for Planning and Local Government John Cummins TD also commended the partnership, emphasising the importance of delivering homes in the right places with the facilities needed to build stronger communities." }] },
+    { type: "paragraph", content: [{ text: "The project is funded by the Department of Housing, Local Government and Heritage, with additional support from the Housing Agency through the Land Acquisition Fund." }] },
+    { type: "image", image: {
+      src: "emmet-gardens-sod-turning-celebration.jpg",
+      alt: "Attendees toss soil from their spades during the Emmet Gardens sod-turning celebrations.",
+      kind: "photo",
+    }, caption: "A moment of celebration as the first sod is turned at Emmet Gardens." },
+    { type: "paragraph", content: [{ text: "The ceremony marks a beginning. The work ahead is to deliver the homes and shared spaces that will make Emmet Gardens a community." }] },
+    { type: "cta", title: "Land & partnerships", content: [
+      { text: "Have a site or a partnership opportunity? Explore how Winterbrook works with " },
+      { text: "landowners and public-sector partners", href: "/land" },
+      { text: ", and begin a confidential conversation with the team." },
+    ] },
+  ],
+};

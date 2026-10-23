@@ -2,6 +2,8 @@
 
 import { useState, type FormEvent } from "react";
 import Magnetic from "./Magnetic";
+import { useEnquiryDelivery } from "./useEnquiryDelivery";
+import EnquiryDeliveryNotice from "./EnquiryDeliveryNotice";
 
 interface FieldState {
   value: string;
@@ -27,7 +29,7 @@ const validators: Record<string, (v: string) => string | null> = {
  * Landowner / partner enquiry form for the Land & Partnerships page.
  * Same floating-label & validation behaviour as EnquiryForm, with fields
  * tailored to land introductions (location, size, planning status,
- * preferred structure). Demo build: validated client-side, no network call.
+ * preferred structure). Submission uses the shared delivery endpoint, with a clearly labelled email fallback.
  */
 export default function LandEnquiryForm() {
   const [fields, setFields] = useState<Record<string, FieldState>>({
@@ -41,7 +43,7 @@ export default function LandEnquiryForm() {
   const [size, setSize] = useState("");
   const [planning, setPlanning] = useState("");
   const [structure, setStructure] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const delivery = useEnquiryDelivery();
 
   const setField = (key: string, patch: Partial<FieldState>) =>
     setFields((f) => ({ ...f, [key]: { ...f[key], ...patch } }));
@@ -56,10 +58,13 @@ export default function LandEnquiryForm() {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     const results = Object.keys(validators).map((k) => validateField(k));
-    if (results.every(Boolean)) setSubmitted(true);
+    if (results.every(Boolean)) void delivery.submit({
+      kind: "land", name: fields.name.value, email: fields.email.value, phone: fields.phone.value,
+      location: fields.location.value, message: fields.message.value, role, size, planning, structure,
+    });
   };
 
-  if (submitted) {
+  if (delivery.reference) {
     return (
       <div role="status" className="flex flex-col items-start gap-4 border border-stone/20 px-8 py-12">
         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-terracotta text-paper">
@@ -67,15 +72,15 @@ export default function LandEnquiryForm() {
             <path d="M1 7.5L6.5 13L17 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </span>
-        <h3 className="font-display text-3xl text-paper">Thank you — we'll be in touch.</h3>
+        <h3 className="font-display text-3xl text-paper">Thank you — your introduction has been submitted.</h3>
         <p className="max-w-md text-stone/60">
-          Your introduction has been received in confidence. Conor Rhatigan or a member of the land
-          team will come back to you within two working days. For a direct conversation, call{" "}
+          Your introduction has been recorded and its notification accepted by our email service. For a direct conversation, call{" "}
           <a href="tel:+35316909590" className="underline decoration-terracotta underline-offset-4">
             +353 (0)1 690 9590
           </a>
           .
         </p>
+        <p className="break-all text-xs">Reference: {delivery.reference}</p>
       </div>
     );
   }
@@ -97,6 +102,7 @@ export default function LandEnquiryForm() {
           <textarea
             id={id}
             rows={4}
+            maxLength={6000}
             value={f.value}
             aria-invalid={!!f.error}
             aria-describedby={f.error ? `${id}-error` : undefined}
@@ -109,6 +115,7 @@ export default function LandEnquiryForm() {
           <input
             id={id}
             type={type}
+            maxLength={key === "email" ? 254 : key === "phone" ? 40 : key === "location" ? 300 : 120}
             required={required}
             value={f.value}
             aria-invalid={!!f.error}
@@ -121,7 +128,7 @@ export default function LandEnquiryForm() {
         )}
         <label
           htmlFor={id}
-          className="pointer-events-none absolute left-0 top-6 origin-left text-sm uppercase tracking-[0.18em] text-stone/60 transition-all duration-300 peer-focus:top-0 peer-focus:scale-90 peer-focus:text-terracotta peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-90"
+          className="pointer-events-none absolute left-0 top-6 origin-left text-xs uppercase tracking-[0.08em] text-stone/60 transition-all duration-300 peer-focus:top-0 peer-focus:scale-90 peer-focus:text-terracotta peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:scale-90"
         >
           {label}
           {required ? " *" : ""}
@@ -145,7 +152,7 @@ export default function LandEnquiryForm() {
     <div>
       <label
         htmlFor={id}
-        className="block whitespace-nowrap text-[12.6px] uppercase tracking-[0.18em] text-stone/60"
+        className="block text-[12.6px] uppercase tracking-[0.18em] text-stone/60"
       >
         {label}
       </label>
@@ -173,7 +180,8 @@ export default function LandEnquiryForm() {
   );
 
   return (
-    <form onSubmit={onSubmit} noValidate className="grid gap-8">
+    <form onSubmit={onSubmit} noValidate className="grid gap-8" aria-busy={delivery.sending}>
+      <EnquiryDeliveryNotice delivery={delivery} dark={true} />
       <div className="grid gap-x-10 gap-y-8 sm:grid-cols-2">
         {floatingField("name", "Name")}
         {floatingField("email", "Email", "email")}
@@ -222,10 +230,11 @@ export default function LandEnquiryForm() {
         <Magnetic>
           <button
             type="submit"
+            disabled={delivery.sending}
             data-cursor="Send"
             className="group inline-flex items-center gap-4 rounded-full bg-terracotta px-9 py-4 text-[13px] uppercase tracking-[0.2em] text-paper transition-colors duration-400 hover:bg-terracotta-deep"
           >
-            Start the conversation
+            {delivery.sending ? "Sending…" : delivery.available ? "Start the conversation" : "Prepare email enquiry"}
             <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true" className="transition-transform duration-400 group-hover:translate-x-1">
               <path d="M1 5h14m0 0L11 1m4 4l-4 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
